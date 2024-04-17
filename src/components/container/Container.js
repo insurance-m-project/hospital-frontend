@@ -7,6 +7,7 @@ export const Container = styled.div`
     padding: 40px;
     display: flex;
     flex-direction: column;
+
 `
 
 // 내부 화면
@@ -14,10 +15,10 @@ export const BasicContainer = styled.div`
     border-radius: 12px;
     background: #FFF;
     box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.25);
-    overflow-y: scroll;
     height: 100%;
     width: 100%;
     position: relative;
+    overflow-y: scroll;
 `
 
 // 페이지 제목
