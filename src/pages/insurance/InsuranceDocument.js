@@ -1,14 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import styled from "styled-components"
+import UseWeb3 from '../../hooks/UseWeb3';
+import Styled from "styled-components"
 import {Container, HospitalText, SystemTitleText, BasicContainer} from "../../components/container/Container";
 import SearchButtonImage from "../../images/SearchPlus.svg"
-const TitleContainer = styled.div`
+import MedicalRecord from "../../components/contracts/MedicalRecord";
+
+
+const TitleContainer = Styled.div`
   display: flex;
   justify-content: space-between;
 `
-
 // 표 있는 페이지의 네이비 바
-const Bar = styled.div`
+const Bar = Styled.div`
   border-radius: 12px;
   height: 60px;
   width: 100%;
@@ -24,16 +27,7 @@ const Bar = styled.div`
   justify-content: ${props => props.space ? 'space-between' : null};
 `
 
-// const BookedTable = styled.table`
-//   border-collapse: collapse;
-//   width: 100%;
-//   font-size: 18px;
-//   position: absolute;
-//   top: 0;
-//   table-layout: fixed;
-// `
-
-const ColumnContainer = styled.div`
+const ColumnContainer = Styled.div`
   height: 40px;
   width: 100%;
   justify-content: flex-start;
@@ -41,17 +35,17 @@ const ColumnContainer = styled.div`
   margin-bottom: 40px;
   margin-right: 30px;
 `
-const ShortColumnContainer = styled(ColumnContainer)`
+const ShortColumnContainer = Styled(ColumnContainer)`
   display: flex;
   width: 30%;
 `
 
-const TableColumnContainer = styled(ColumnContainer)`
+const TableColumnContainer = Styled(ColumnContainer)`
   display: contents;
   width: 100%;
 `
 
-const TitleLabel = styled.label`
+const TitleLabel = Styled.label`
   color: #262DE0;
   font-size: 20px;
   width: 150px;
@@ -59,7 +53,7 @@ const TitleLabel = styled.label`
   text-align: left;
 `
 
-const InfoInput = styled.input.attrs({type: 'text'})`
+const InfoInput = Styled.input.attrs({type: 'text'})`
   flex: 1;
   height: 20px;
   border-radius: 8px;
@@ -68,19 +62,19 @@ const InfoInput = styled.input.attrs({type: 'text'})`
   padding: 10px;
 `
 
-const MarginColumnContainer = styled(BasicContainer)`
+const MarginColumnContainer = Styled(BasicContainer)`
   padding: 40px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
 `
-const MarginRowContainer = styled.div`
+const MarginRowContainer = Styled.div`
   display: flex;
   flex-direction: row;
 `
 
-const InfoTable = styled.table`
+const InfoTable = Styled.table`
   width: 100%;
   margin: 0 0 40px 40px;
   border-collapse: collapse;
@@ -88,17 +82,17 @@ const InfoTable = styled.table`
   font-size: 17px;
 `
 
-const InfoTableData = styled.td`
+const InfoTableData = Styled.td`
   border: 1px solid #959494;
   height: 45px
 `
 
-const InfoTableNumberData = styled(InfoTableData)`
+const InfoTableNumberData = Styled(InfoTableData)`
   text-align: right;
   padding-right: 10px;
 `
 
-const ManageAddButtonImage = styled.img`
+const ManageAddButtonImage = Styled.img`
   width: 16px;
   height: 16px;
   border-radius: 12px;
@@ -106,14 +100,14 @@ const ManageAddButtonImage = styled.img`
   margin-right: 10px;
 `
 
-const AddButtonContainer = styled.div`
+const AddButtonContainer = Styled.div`
   width: 100%;
   height: fit-content;
   display: flex;
   justify-content: flex-end;
 `
 
-const ManageAddButton = styled.button`
+const ManageAddButton = Styled.button`
   height: 100%;
   padding: 10px 15px;
   border: none;
@@ -133,7 +127,7 @@ function InsuranceDocument() {
         return new Intl.NumberFormat().format(number);
     }
 
-    const initialValue = {
+    const InitialValue = {
         name: '홍길동',
         RRN: '010101-31234567',
         KCD: 'J09',
@@ -145,7 +139,8 @@ function InsuranceDocument() {
         nonReimbursement: null
     };
 
-    const initialTreatDetail1 = {
+    const InitialTreatDetail1 = {
+        id: 1,
         category: "검사료",
         date: '2023-12-22',
         treatCode: '831',
@@ -156,7 +151,8 @@ function InsuranceDocument() {
         foop: 0,
         nonReimbursement: 20000
     }
-    const initialTreatDetail2 = {
+    const InitialTreatDetail2 = {
+        id: 2,
         category: "주사료",
         date: '2023-12-22',
         treatCode: '647801091',
@@ -167,7 +163,8 @@ function InsuranceDocument() {
         foop: 0,
         nonReimbursement: 0
     }
-    const initialTreatDetail3 = {
+    const InitialTreatDetail3 = {
+        id: 3,
         category: "주사료",
         date: '2023-12-22',
         treatCode: 'KK010',
@@ -178,7 +175,8 @@ function InsuranceDocument() {
         foop: 0,
         nonReimbursement: 0
     }
-    const initialTreatDetail4 = {
+    const InitialTreatDetail4 = {
+        id: 4,
         category: "진찰료",
         date: '2023-12-22',
         treatCode: 'AA254',
@@ -189,7 +187,8 @@ function InsuranceDocument() {
         foop: 0,
         nonReimbursement: 0
     }
-    const initialTreatDetail5 = {
+    const InitialTreatDetail5 = {
+        id: 5,
         category: "진찰료",
         date: '2023-12-22',
         treatCode: 'AL801',
@@ -202,21 +201,27 @@ function InsuranceDocument() {
     }
 
 
-    const initialTreatDetailList = [
-        initialTreatDetail1,
-        initialTreatDetail2,
-        initialTreatDetail3,
-        initialTreatDetail4,
-        initialTreatDetail5
+    const InitialTreatDetailList = [
+        InitialTreatDetail1,
+        InitialTreatDetail2,
+        InitialTreatDetail3,
+        InitialTreatDetail4,
+        InitialTreatDetail5
     ];
-
-    const [inputValues, setInputValues] = useState(initialValue);
+    // attribute
+    const [inputValues, setInputValues] = useState(InitialValue);
+    const[initialTreatDetailList, setInitialTreatDetailList] = useState(InitialTreatDetailList);
     const[total, setTotal] = useState(0);
     const {name, RRN, KCD, date, receiptNumber} = inputValues;
     const [totalOop, setTotalOop] = useState(0);
     const [totalPcc ,setTotalPcc] = useState(0);
     const [totalFoop ,setTotalFoop] = useState(0);
     const [nonReimbursement ,setNonReimbursement] = useState(0);
+
+    // ethereum metamask
+    const [web3, account] = UseWeb3();
+
+
     useEffect(() => {
         const totalOop = initialTreatDetailList.reduce((acc, info) => acc + info.oop, 0);
         const totalPcc = initialTreatDetailList.reduce((acc, info) => acc + info.pcc, 0);
@@ -228,6 +233,7 @@ function InsuranceDocument() {
         setTotalFoop(totalFoop);
         setNonReimbursement(nonReimbursement);
         setTotal(totalPcc + totalFoop + nonReimbursement);
+
     }, [initialTreatDetailList]);
 
     const onChangeInput = event => {
@@ -235,6 +241,7 @@ function InsuranceDocument() {
         setInputValues({...inputValues, [inputName]: value});
 
     }
+
     return (
         <Container>
             <TitleContainer>
@@ -271,51 +278,60 @@ function InsuranceDocument() {
                     <TableColumnContainer>
                         <TitleLabel>진료비<br></br>세부산정내역</TitleLabel>
                         <InfoTable>
-                            <tr style={{backgroundColor: '#B1C9F9', border: '1px solid #959494', height: '45px'}}>
-                                <th scope="col" style={{width: '7%', border: '1px solid #959494'}}>항목</th>
-                                <th scope="col" style={{width: '10%', border: '1px solid #959494'}}>일자</th>
-                                <th scope="col" style={{width: '10%', border: '1px solid #959494'}}>코드</th>
-                                <th scope="col" style={{width: '26%', border: '1px solid #959494'}}>명칭</th>
-                                <th scope="col" style={{width: '10%', border: '1px solid #959494'}}>금액</th>
-                                <th scope="col" style={{width: '10%', border: '1px solid #959494'}}>본인부담금</th>
-                                <th scope="col" style={{width: '10%', border: '1px solid #959494'}}>공단부담금</th>
-                                <th scope="col" style={{width: '10%', border: '1px solid #959494'}}>전체본인부담</th>
-                                <th scope="col" style={{width: '10%', border: '1px solid #959494'}}>비급여</th>
-                            </tr>
-                            {initialTreatDetailList.map(function (info) {
-                                return (
-                                    <tr style={{border: '1px solid #959494', height: '45px'}}>
-                                        <InfoTableData>{info.category}</InfoTableData>
-                                        <InfoTableData>{info.date}</InfoTableData>
-                                        <InfoTableData>{info.treatCode}</InfoTableData>
-                                        <InfoTableData>{info.description}</InfoTableData>
-                                        <InfoTableNumberData>{formatNumber(info.price)}</InfoTableNumberData>
-                                        <InfoTableNumberData>{formatNumber(info.oop)}</InfoTableNumberData>
-                                        <InfoTableNumberData>{formatNumber(info.pcc)}</InfoTableNumberData>
-                                        <InfoTableNumberData>{formatNumber(info.foop)}</InfoTableNumberData>
-                                        <InfoTableNumberData>{formatNumber(info.nonReimbursement)}</InfoTableNumberData>
-                                    </tr>
-                                )
-                            })}
-                            <tr style={{border: '1px solid #959494', height: '45px'}}>
-                                <InfoTableData colspan={4}>계</InfoTableData>
-                                <InfoTableNumberData> {formatNumber(total)}</InfoTableNumberData>
-                                <InfoTableNumberData name='totalOop' value={totalOop}>{formatNumber(totalOop)}</InfoTableNumberData>
-                                <InfoTableNumberData name='totalPcc' value={totalPcc}>{formatNumber(totalPcc)}</InfoTableNumberData>
-                                <InfoTableNumberData name='totalFoop' value={totalFoop}>{formatNumber(totalFoop)}</InfoTableNumberData>
-                                <InfoTableNumberData name='nonReimbursement' value={nonReimbursement}>{formatNumber(nonReimbursement)}</InfoTableNumberData>
-                            </tr>
+                            <thead>
+                                <tr style={{backgroundColor: '#B1C9F9', border: '1px solid #959494', height: '45px'}}>
+                                    <th scope="col" style={{width: '7%', border: '1px solid #959494'}}>항목</th>
+                                    <th scope="col" style={{width: '10%', border: '1px solid #959494'}}>일자</th>
+                                    <th scope="col" style={{width: '10%', border: '1px solid #959494'}}>코드</th>
+                                    <th scope="col" style={{width: '26%', border: '1px solid #959494'}}>명칭</th>
+                                    <th scope="col" style={{width: '10%', border: '1px solid #959494'}}>금액</th>
+                                    <th scope="col" style={{width: '10%', border: '1px solid #959494'}}>본인부담금</th>
+                                    <th scope="col" style={{width: '10%', border: '1px solid #959494'}}>공단부담금</th>
+                                    <th scope="col" style={{width: '10%', border: '1px solid #959494'}}>전체본인부담</th>
+                                    <th scope="col" style={{width: '10%', border: '1px solid #959494'}}>비급여</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {initialTreatDetailList.map(function (info, i) {
+                                    return (
+                                        <tr  key={info.id} style={{border: '1px solid #959494', height: '45px'}}>
+                                            <InfoTableData>{info.category}</InfoTableData>
+                                            <InfoTableData>{info.date}</InfoTableData>
+                                            <InfoTableData>{info.treatCode}</InfoTableData>
+                                            <InfoTableData>{info.description}</InfoTableData>
+                                            <InfoTableNumberData>{formatNumber(info.price)}</InfoTableNumberData>
+                                            <InfoTableNumberData>{formatNumber(info.oop)}</InfoTableNumberData>
+                                            <InfoTableNumberData>{formatNumber(info.pcc)}</InfoTableNumberData>
+                                            <InfoTableNumberData>{formatNumber(info.foop)}</InfoTableNumberData>
+                                            <InfoTableNumberData>{formatNumber(info.nonReimbursement)}</InfoTableNumberData>
+                                        </tr>
+                                    )
+                                })}
+                                <tr style={{border: '1px solid #959494', height: '45px'}}>
+                                    <InfoTableData colSpan={4}>계</InfoTableData>
+                                    <InfoTableNumberData> {formatNumber(total)}</InfoTableNumberData>
+                                    <InfoTableNumberData name='totalOop' value={totalOop}>{formatNumber(totalOop)}</InfoTableNumberData>
+                                    <InfoTableNumberData name='totalPcc' value={totalPcc}>{formatNumber(totalPcc)}</InfoTableNumberData>
+                                    <InfoTableNumberData name='totalFoop' value={totalFoop}>{formatNumber(totalFoop)}</InfoTableNumberData>
+                                    <InfoTableNumberData name='nonReimbursement' value={nonReimbursement}>{formatNumber(nonReimbursement)}</InfoTableNumberData>
+                                </tr>
+                            </tbody>
+
                         </InfoTable>
                     </TableColumnContainer>
                 </MarginRowContainer>
                 <AddButtonContainer>
                     <ManageAddButton>
+
                         <ManageAddButtonImage src={SearchButtonImage}/>
                         보험서류청구
                     </ManageAddButton>
                 </AddButtonContainer>
             </MarginColumnContainer>
+            <MedicalRecord web3={web3} account={account} />
         </Container>
+
     );
 }
 
