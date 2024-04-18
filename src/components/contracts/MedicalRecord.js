@@ -14,13 +14,29 @@ export async function addMedicalRecords(web3, account, inputValues, totalOop, to
         nonReimbursement: nonReimbursement,
         treatments: initialTreatDetailList
     }).then(async (response) => {
-
         console.log(response)
-        await web3.eth.sendTransaction(response.data);
+        await web3.eth.sendTransaction(response.data, function(err, transactionHash) {
+            if (!err) {
+                console.log("Transaction Hash " + transactionHash);
+                // 트랜잭션 해시를 사용하여 트랜잭션 확인하기
+                web3.eth.getTransaction(transactionHash, function(err, transaction) {
+                    if (!err) {
+                        console.log("Transaction details:", transaction);
+                    } else {
+                        console.error("Error getting transaction details:", err);
+                    }
+                });
+            } else {
+                console.error("Error sending transaction:", err);
+            }
+        });
     }).catch((error) => {
         alert("정보가 보내지지 않았습니다 .");
-        console.error('API 요청 중 오류 발생:', error);
+        console.error('정보를 전달할 수 없습니다.', error);
     });
+
+
+
 }
 
 function MedicalRecord({web3, account}) {

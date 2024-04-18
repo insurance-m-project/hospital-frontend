@@ -240,7 +240,8 @@ function InsuranceDocument() {
     }
 
     const onClickBtn = event => {
-        const regUnique = /^d{2}([0]\d|[1][0-2])([0][1-9]|[1-2]\d|[3][0-1])[-]*[1-4]\d{6}$/;
+        const regUnique = /^(?:[0-9]{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[1,2][0-9]|3[0,1]))-[1-8][0-9]{6}$/
+        console.log(inputValues.RRN)
         if(!regUnique.test(inputValues.RRN)) {
             alert("주민번호를 다시 확인해주세요.");
             return;
