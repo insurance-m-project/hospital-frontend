@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import UseWeb3 from '../../hooks/UseWeb3';
 import Styled from "styled-components"
+import UseWeb3 from '../../hooks/UseWeb3';
 import {Container, HospitalText, SystemTitleText, BasicContainer} from "../../components/container/Container";
 import SearchButtonImage from "../../images/SearchPlus.svg"
-import MedicalRecord from "../../components/contracts/MedicalRecord";
-
+import {addMedicalRecords} from "../../components/contracts/MedicalRecord";
+// import MedicalRecord from "../../components/contracts/MedicalRecord";
+// import { add } from "../../components/contracts/MedicalRecord.js";
 
 const TitleContainer = Styled.div`
   display: flex;
@@ -217,8 +218,6 @@ function InsuranceDocument() {
     const [totalPcc ,setTotalPcc] = useState(0);
     const [totalFoop ,setTotalFoop] = useState(0);
     const [nonReimbursement ,setNonReimbursement] = useState(0);
-
-    // ethereum metamask
     const [web3, account] = UseWeb3();
 
 
@@ -234,13 +233,27 @@ function InsuranceDocument() {
         setNonReimbursement(nonReimbursement);
         setTotal(totalPcc + totalFoop + nonReimbursement);
 
-    }, [initialTreatDetailList]);
+    }, []);
 
     const onChangeInput = event => {
         const {value, name: inputName} = event.target;
         setInputValues({...inputValues, [inputName]: value});
-
     }
+
+    const onClickBtn = event => {
+        addMedicalRecords(
+            web3,
+            account,
+            inputValues,
+            totalOop,
+            totalPcc,
+            totalFoop,
+            nonReimbursement,
+            initialTreatDetailList)
+            .then(r => console.log(r));
+    }
+
+    // const onChange
 
     return (
         <Container>
@@ -322,14 +335,13 @@ function InsuranceDocument() {
                     </TableColumnContainer>
                 </MarginRowContainer>
                 <AddButtonContainer>
-                    <ManageAddButton>
-
+                    <ManageAddButton onClick={onClickBtn}>
                         <ManageAddButtonImage src={SearchButtonImage}/>
                         보험서류청구
                     </ManageAddButton>
                 </AddButtonContainer>
             </MarginColumnContainer>
-            <MedicalRecord web3={web3} account={account} />
+
         </Container>
 
     );
