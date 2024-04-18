@@ -18,7 +18,7 @@ export async function addMedicalRecords(web3, account, inputValues, totalOop, to
         console.log(response)
         await web3.eth.sendTransaction(response.data);
     }).catch((error) => {
-        alert("정보가 보내지지 않았습니다 .")
+        alert("정보가 보내지지 않았습니다 .");
         console.error('API 요청 중 오류 발생:', error);
     });
 }

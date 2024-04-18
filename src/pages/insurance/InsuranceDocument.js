@@ -201,7 +201,6 @@ function InsuranceDocument() {
         nonReimbursement: 0
     }
 
-
     const InitialTreatDetailList = [
         InitialTreatDetail1,
         InitialTreatDetail2,
@@ -209,6 +208,7 @@ function InsuranceDocument() {
         InitialTreatDetail4,
         InitialTreatDetail5
     ];
+
     // attribute
     const [inputValues, setInputValues] = useState(InitialValue);
     const[initialTreatDetailList, setInitialTreatDetailList] = useState(InitialTreatDetailList);
@@ -219,7 +219,6 @@ function InsuranceDocument() {
     const [totalFoop ,setTotalFoop] = useState(0);
     const [nonReimbursement ,setNonReimbursement] = useState(0);
     const [web3, account] = UseWeb3();
-
 
     useEffect(() => {
         const totalOop = initialTreatDetailList.reduce((acc, info) => acc + info.oop, 0);
@@ -241,6 +240,12 @@ function InsuranceDocument() {
     }
 
     const onClickBtn = event => {
+        const regUnique = /^d{2}([0]\d|[1][0-2])([0][1-9]|[1-2]\d|[3][0-1])[-]*[1-4]\d{6}$/;
+        if(!regUnique.test(inputValues.RRN)) {
+            alert("주민번호를 다시 확인해주세요.");
+            return;
+        }
+
         addMedicalRecords(
             web3,
             account,
