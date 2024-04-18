@@ -1,6 +1,6 @@
 import './App.css';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
-import InsuranceDocument from "./pages/users/InsuranceDocument";
+import InsuranceDocument from "./pages/insurance/InsuranceDocument";
 function App() {
   return (
     <div className="App">
