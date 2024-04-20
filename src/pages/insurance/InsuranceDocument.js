@@ -4,8 +4,6 @@ import UseWeb3 from '../../hooks/UseWeb3';
 import {Container, HospitalText, SystemTitleText, BasicContainer} from "../../components/container/Container";
 import SearchButtonImage from "../../images/SearchPlus.svg"
 import {addMedicalRecords} from "../../components/contracts/MedicalRecord";
-// import MedicalRecord from "../../components/contracts/MedicalRecord";
-// import { add } from "../../components/contracts/MedicalRecord.js";
 
 const TitleContainer = Styled.div`
   display: flex;
@@ -130,7 +128,7 @@ function InsuranceDocument() {
 
     const InitialValue = {
         name: '홍길동',
-        RRN: '010101-31234567',
+        RRN: '010101-3123456',
         KCD: 'J09',
         date: '2024-01-01',
         receiptNumber: '2401-01010',
@@ -218,7 +216,7 @@ function InsuranceDocument() {
     const [totalPcc ,setTotalPcc] = useState(0);
     const [totalFoop ,setTotalFoop] = useState(0);
     const [nonReimbursement ,setNonReimbursement] = useState(0);
-    const [web3, account] = UseWeb3();
+    const [web3, loggingWeb3, account] = UseWeb3();
 
     useEffect(() => {
         const totalOop = initialTreatDetailList.reduce((acc, info) => acc + info.oop, 0);
@@ -249,6 +247,7 @@ function InsuranceDocument() {
 
         addMedicalRecords(
             web3,
+            loggingWeb3,
             account,
             inputValues,
             totalOop,
@@ -336,7 +335,6 @@ function InsuranceDocument() {
                                     <InfoTableNumberData name='nonReimbursement' value={nonReimbursement}>{formatNumber(nonReimbursement)}</InfoTableNumberData>
                                 </tr>
                             </tbody>
-
                         </InfoTable>
                     </TableColumnContainer>
                 </MarginRowContainer>
