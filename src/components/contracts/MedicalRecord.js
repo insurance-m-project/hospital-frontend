@@ -1,7 +1,8 @@
 import axios from 'axios';
 
+const backendUrl = process.env.REACT_APP_ETHEREUM_NODE_URL;
 export async function addMedicalRecords(web3, loggingWeb3, account, inputValues, totalOop, totalPcc, totalFoop, nonReimbursement, initialTreatDetailList) {
-    axios.post('http://localhost:4000/api/hospital', {
+    axios.post(backendUrl+'/api/hospital', {
         from: account,
         name: inputValues.name,
         RRN: inputValues.RRN,
@@ -25,7 +26,7 @@ export async function addMedicalRecords(web3, loggingWeb3, account, inputValues,
         });
         console.log(txReceipt);
         const transactionHash = txReceipt.transactionHash;
-        axios.post('http://localhost:4000/api/logging', {
+        axios.post(backendUrl+'/api/logging', {
             from: account,
             transactionHash: transactionHash,
             date: new Date().toString()
