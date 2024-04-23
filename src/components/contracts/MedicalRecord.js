@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const backendUrl = process.env.REACT_APP_ETHEREUM_NODE_URL;
+const backendUrl = process.env.REACT_APP_NODE_URL;
 export async function addMedicalRecords(web3, loggingWeb3, account, inputValues, totalOop, totalPcc, totalFoop, nonReimbursement, initialTreatDetailList) {
     axios.post(backendUrl+'/api/hospital', {
         from: account,
