@@ -38,5 +38,5 @@ jobs:
               docker rmi -f ${{ secrets.DOCKER_USERNAME }}/hospital-web
             fi
             docker pull ${{ secrets.DOCKER_USERNAME }}/hospital-web
-            docker run -d -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/hospital-web
+            docker run -d -p 3000:3000 --name hospital-web ${{ secrets.DOCKER_USERNAME }}/hospital-web
             docker image prune -f
