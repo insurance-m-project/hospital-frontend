@@ -45,6 +45,7 @@
 <br>
 
 ## Project Structure 
+![image](https://github.com/insurance-m-project/hospital-frontend/assets/90203250/7395cd84-eaee-465d-8b18-f320578d95e1)
 
 <br>
 
